@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<header>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .firt-component {
+            /* width: 20%; */
+            box-shadow: 1px 1px 3px 1px lightgreen;
+        }
+        
+        input[type="number"] {
+            width: 2%;
+        }
+    </style>
+</header>
+
+<body>
+    <div id="root">
+        <h3 style="text-align: center;">Hello everybody</h3>
+        <div class="firt-component" style="text-align: center;">
+            <img :src="obj.url" alt=""><br>
+            <input type="number" v-model="obj.quantity">
+            <p>{{obj.name}}</p>
+            <p>Price: {{obj.price*obj.quantity}}</p>
+            
+        </div>
+        <div>
+
+        </div>
+    </div>
+</body>
+<script src="./index.js"></script>
+
+</html>
