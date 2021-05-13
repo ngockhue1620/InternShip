@@ -1,2 +1,7 @@
-authentication
+authentication document
 	https://docs.djangoproject.com/en/3.2/topics/auth/default/
+
+python manager.py startapp blog to create an app
+python manager.py runserver  -> to start server
+
+after you create an app you must install it into file setting at # Application definition
