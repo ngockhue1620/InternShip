@@ -5,3 +5,8 @@ python manager.py startapp blog to create an app
 python manager.py runserver  -> to start server
 
 after you create an app you must install it into file setting at # Application definition
+
+
+#learned
+-urls
+-template
