@@ -1,0 +1,17 @@
+{% extends 'blogdjango/base_blog.html' %}
+
+{% block title %}
+    Delete Post {{block.super}}
+{% endblock  %}
+
+{% block content %}
+    <h1>Delete Post</h1>
+    <form class="mb-5" action ="{{ post.get_delete_url }}" method="post">
+    {% csrf_token %}
+
+    <h3>Do you want delete {{tag.title}} Post? </h3>
+    <a class="btn btn-primary " href="{{post.get_absolute_url}}">Cancle</a>
+    
+    <button type="submit" name ="button" class="btn btn-danger">Delete</button>
+   </form>
+{% endblock  %}

@@ -5,6 +5,9 @@
 {% endblock  %}
 
 {% block content %}
-    <b>This is blog page</b>
+    {% for  post in page.object_list  %}
+       
+        {% include 'blogdjango/includes/post_card_template.html'%}
+    {% endfor %}
 {% endblock  %}
 

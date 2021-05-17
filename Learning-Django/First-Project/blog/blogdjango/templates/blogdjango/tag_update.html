@@ -1,0 +1,26 @@
+{% extends 'blogdjango/base_blog.html' %}
+
+{% block title %}
+    Edit Tag {{block.super}}
+{% endblock  %}
+
+{% block content %}
+   <form class="" action ="{{tag.get_update}}" method="post">
+    {% csrf_token %}
+        
+        {%for field in form %}
+            {% if field.errors %}
+                <div class="alert alert-danger"> 
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                {{field.label}}
+                {{field}}
+            </div>
+        {% endfor %}
+    
+    
+    <button type="submit" name ="button" class="btn btn-primary">Submit</button>
+   </form>
+{% endblock  %}

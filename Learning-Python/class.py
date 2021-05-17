@@ -40,15 +40,13 @@ class Team:
 class Testing(Team):
    TestingName = ""
 
-   def show_Testing(self):
-      print(self.TestingName)
+   
  
 # Dev class inherited from Team
 class Dev(Team):
    DevName = ""
 
-   def show_Dev(self):
-      print(self.DevName) 
+   
  
 # Sprint class inherited from Testing and Dev classes
 class Sprint(Testing, Dev):
@@ -66,3 +64,26 @@ try:
   print(5/0)
 except:
   print("An exception occurred")
+
+
+class PostDetail:
+   title=None
+   body =None
+   def get(self):
+      
+      print(self.title)
+   
+   
+   
+   
+   
+class Post(PostDetail):
+   title="khue post"
+   body="khue"
+
+
+   
+
+post = Post()
+post.get()
+

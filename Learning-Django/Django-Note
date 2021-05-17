@@ -1,10 +1,23 @@
 authentication document
 	https://docs.djangoproject.com/en/3.2/topics/auth/default/
 
-python manager.py startapp blog to create an app
-python manager.py runserver  -> to start server
+-python manager.py startapp blog to create an app
+-python manager.py runserver  -> to start server
+-after you create an app you must install it into file setting at # Application definition
+-python manage.py makemigrations to migrate database
+-
+-	insert database with model
+- Table name = Post
+	*p = Post(title='new post',slug='new-post',body='new-body')
+	*p.save()
+or
+	*p=Post.objects.create(title='new post',slug='new-post',body='new-body')
 
-after you create an app you must install it into file setting at # Application definition
+where query 
+	*post =Post.objects.(slug__iexact='new post 2')
+		+this query use to find all slug = new post 2
+	*post = post.objects.(slug_contains='new')
+		+this query use to find all slug have 'new' in contents
 
 
 #learned
