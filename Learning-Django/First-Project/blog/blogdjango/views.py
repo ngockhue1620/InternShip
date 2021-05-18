@@ -23,7 +23,7 @@ def post_list(request):
     page_number = request.GET.get('page',1)
     page =paginator.get_page(page_number)
 
-    seach_quuery = request.GET.get('seach','')
+    
    
 
     if(page.has_next()):
