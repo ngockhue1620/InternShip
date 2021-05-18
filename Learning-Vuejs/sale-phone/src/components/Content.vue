@@ -1,0 +1,81 @@
+<template>
+  <div class="Content-component ">   
+
+    <div class="card " 
+         v-for="product in getProduct" :key="product.id"
+    >
+      <img class="productImage-content" :src="product.imageAddress" alt="Card image cap" />
+      <div class="card-body">
+        <p class="card-text">
+            {{product.productName}}
+        </p>
+      </div>
+      <div class="component-price-Add-button">
+             <p class="product-price">{{product.price}} VNĐ</p>
+             <button class="btn btn-primary"
+            @click="addProductTocart(product)"
+             >Add To Cart</button>
+        </div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+
+import { mapActions, mapGetters } from "vuex";
+export default {
+  data() {
+    return {
+      listProduct: [],
+    };
+  },
+  created() {
+    this.getListProduct();
+    this.delete_search();
+    
+     
+  },
+  computed:{
+    ...mapGetters(["getProduct"]),
+  },
+  methods: {
+    ...mapActions(["getListProduct","addProductTocart","delete_search"]),
+
+    
+  },
+};
+</script>
+
+<style>
+.Content-component {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+img.productImage-content {
+    height: 75%;
+}
+p.card-text {text-align: center;}
+.card {
+    width: 20rem;
+    height: 40rem;
+    margin-top: 1rem;
+}
+
+.component-price-Add-button {
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    /* justify-content: center; */
+    left: 30%;
+}
+
+</style>
+
+
+
+
+
+
+

@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import *
 from django.shortcuts import get_object_or_404
-
+from django.shortcuts import reverse
 
 
 class  DetailObjectMinxin:
