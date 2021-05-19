@@ -1,0 +1,9 @@
+{% extends 'myproject/base.html' %}
+
+{% block content %}
+
+    {% for customer in customer  %}
+        {{customer.customerName}}
+    {% endfor %}
+
+{% endblock content %}

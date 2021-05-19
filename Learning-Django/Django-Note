@@ -20,6 +20,12 @@ where query
 		+this query use to find all slug have 'new' in contents
 
 
-#learned
--urls
--template
+
+One to many 
++Table : Categories ,Products
+
+on Category has many Products
+
+	obj = Categories.objects.get(id=1)
+
+	products = obj.products_set.all

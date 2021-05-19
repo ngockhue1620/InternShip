@@ -1,0 +1,18 @@
+{% extends 'myproject/base.html' %}
+
+
+
+
+{% block content %}
+
+<ul>
+    {% for category in categories  %}
+    <p>category Name {{category.categoryName}}</p>
+       {% for product in category.products_set.all  %}
+        <li> {{product.productName}}</li>
+       {% endfor %}
+    {% endfor %}
+</ul>
+{% endblock content %}
+   
+
