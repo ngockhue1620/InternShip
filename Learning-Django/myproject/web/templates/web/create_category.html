@@ -1,0 +1,19 @@
+{% extends 'web/base_web.html' %}
+
+{% block content %}
+    <form method="post" action="{%url 'category_create_url'%}">
+        {% csrf_token %}        
+        {%for field in form%}
+            {% if field.errors %}
+                <div class="alert alert-danger"> 
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                {{field.label}}
+                {{field}}
+            </div>
+        {%endfor%}    
+        <button class="btn btn-primary">Submit</button>
+    </form>
+{% endblock content %}
