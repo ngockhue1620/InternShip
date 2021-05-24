@@ -3,9 +3,9 @@
     <div class="order-info">
       <Cart-Item-Detail v-if="getCartList().length > 0" :product="product" />
     </div>
-    <div>
+    <div >
       <p>Tổng Tiền:{{ count_total_cart }} VNĐ</p>
-      <div class="cart-item">
+      <div class="cart-item" >
         <table class="table table-cart-list">
           <thead class="thead-dark">
             <tr>
@@ -18,7 +18,9 @@
               <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody v-if="getCartList().length > 0">
+          <tbody v-if="getCartList().length > 0"
+            
+            >
             <CartItem
               v-for="(product, index) in getCartList()"
               :key="index"

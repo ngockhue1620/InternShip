@@ -2,6 +2,7 @@
   <div class="Content-component ">   
 
     <div class="card " 
+    
          v-for="product in getProduct" :key="product.id"
     >
       <img class="productImage-content" :src="product.imageAddress" alt="Card image cap" />
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 import { mapActions, mapGetters } from "vuex";
 export default {
@@ -33,6 +35,7 @@ export default {
   created() {
     this.getListProduct();
     this.delete_search();
+     this.testApi();
     
      
   },
@@ -41,6 +44,18 @@ export default {
   },
   methods: {
     ...mapActions(["getListProduct","addProductTocart","delete_search"]),
+   async testApi(){
+
+     await axios.get("http://127.0.0.1:90/api/category/").
+      then(response=>{
+        console.log(response)
+
+        
+        
+      }).catch(e=>{
+        console.log(e)
+      })
+    }
 
     
   },
