@@ -3,6 +3,7 @@
 from django.shortcuts import redirect, render ,get_list_or_404
 
 from django.views.generic import View
+from rest_framework.response import Response
 
 from .forms import CategoryForm,ProductForm,CustomerForm
 from .models import Categories, Customers, Products
@@ -78,4 +79,68 @@ class CustomerDetail(View):
     def get(self,request,customerEmail):
         customer = get_list_or_404(Customers,customerEmail__iexact=customerEmail)
         return render(request,'web/customer_detail.html',context={'customer':customer})
+
+from rest_framework import status, viewsets
+from .serializes import *
+from rest_framework.response import Response
+from rest_framework import status
+class CategoryViewSet(viewsets.ViewSet):
+
+    def list(self,request):
+
+        categories = Categories.objects.select_related().all()
+        serialize  = CategorySerialize(categories,many=True)
+        return Response(serialize.data)
+
+    def create(self,request):
+        serialize = CategorySerialize(data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data,status=status.HTTP_201_CREATED)
+        return Response(serialize.errors)
+
+
+class ProductViewSet(viewsets.ViewSet):
+
+    def list(self,request):
+
+        products = Products.objects.all()
+        serialize  = ProductSerialize(products,many=True)
+        return Response(serialize.data)
+
+    def create(self,request):
+        serialize = ProductSerialize(data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data,status=status.HTTP_201_CREATED)
+        return Response(serialize.errors)
  
+class CustomerViewSet(viewsets.ViewSet):
+
+    def list(self,request):
+        customers = Customers.objects.select_related().all()
+        serialize  = CustomerSerialize(customers,many=True)
+        return Response(serialize.data)
+
+    def create(self,request):
+        serialize = CustomerSerialize(data=request.data)
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data,status=status.HTTP_201_CREATED)
+        return Response(serialize.errors)
+ 
+
+class OrderViewSet(viewsets.ViewSet):
+
+    def list(self,request):
+
+        products = Orders.objects.all()
+        serialize  = OrderSerialize(products,many=True)
+        return Response(serialize.data)
+
+    def create(self,request):
+        serialize = OrderSerialize(data = request.data )
+        if serialize.is_valid():
+            serialize.save()
+            return Response(serialize.data,status=status.HTTP_201_CREATED)
+        return Response(serialize.errors)

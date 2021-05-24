@@ -17,12 +17,12 @@ class Products(models.Model):
     quantity        = models.IntegerField()
     img             = models.TextField()
     description     = models.TextField()
-    category      = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category      = models.ForeignKey(Categories, related_name='products',on_delete=models.CASCADE)
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
     
     def __str__(self):        
-        return self.id
+        return self.productName
     def get_absolute_url(self):
     
         return reverse("product_detail_url", kwargs={"id": self.id})
@@ -40,25 +40,29 @@ class Customers(models.Model):
     def __str__(self) :
         return self.customerEmail
     def get_absolute_url(self):
-        return reverse("customer_detail_url", kwargs={"customerEmail": self.customerEmail})
-    
+        return reverse("customer_detail_url", kwargs={"customerEmail": self.customerEmail})   
     
 
 class Orders(models.Model):
-    Customer    = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    
     recipientPhone  = models.TextField(max_length=20)
     recipientName   = models.TextField(max_length=100)
     note            = models.TextField(max_length=200,blank=True)
     isProcess       = models.BooleanField()
+    customer        = models.ForeignKey(Customers,related_name='orders', on_delete=models.CASCADE)
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
+
+
 class OrderDetails(models.Model):
-    order        = models.ForeignKey(Orders,on_delete=models.CASCADE)
+    order        = models.ForeignKey(Orders,related_name='ordersDetail',on_delete=models.CASCADE)
     product      = models.ForeignKey(Products,on_delete=models.CASCADE)
     quantity        = models.IntegerField()
     price           = models.BigIntegerField()
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
+
+
 class InCarts(models.Model):
     customer    = models.ForeignKey(Customers,on_delete=models.CASCADE)
     product      = models.ForeignKey(Products,on_delete=models.CASCADE)
