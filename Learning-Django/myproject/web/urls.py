@@ -1,6 +1,15 @@
 
+from django.db import router
 from django.urls import path
-from .views import CreateCategory, CreateCustomer,category_list,CategoryDetail,CreateProduct,ProductDetail,products_list,CustomerDetail
+from .views import *
+from django.urls.conf import include
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('category',CategoryViewSet,'category')
+router.register('product',ProductViewSet,'product')
+router.register('customer',CustomerViewSet,'customer')
+router.register('order',OrderViewSet,'order')
 
 urlpatterns = [
     
@@ -13,5 +22,7 @@ urlpatterns = [
     path('products/list',products_list,name="products_list_url"),
 
     path('customer/create',CreateCustomer.as_view(),name='customer_create_url'),
-    path('customer/<str:customerEmail>',CustomerDetail.as_view(),name='customer_detail_url')
+    path('customer/<str:customerEmail>',CustomerDetail.as_view(),name='customer_detail_url'),
+
+    path('api/',include(router.urls))
 ]
