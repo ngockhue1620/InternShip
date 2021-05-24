@@ -18,7 +18,5 @@ export default {
 </script>
 
 <style >
-.body-component {
-    display: flex;
-}
+
 </style>

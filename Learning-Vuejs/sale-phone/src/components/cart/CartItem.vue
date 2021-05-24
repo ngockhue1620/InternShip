@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr >
     <th scope="row">{{ index + 1 }}</th>
     <td><img class="image-cart-table" :src="product.imageAddress" /></td>
     <td @click="transmit_Product(product)">{{ product.productName }}</td>

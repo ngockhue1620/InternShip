@@ -1,16 +1,21 @@
 <template>
   <div class="Menu-component">
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        v-for="(item, index) in categoryList"
+   
+    <!-- Example single danger button -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Category
+      </button>
+      <div class="dropdown-menu">
+        <ul>
+        <li class="dropdown-item"
+          v-for="(item, index) in categoryList"
         :key="index"
         @click="search(item.id)"
-      >
-        {{ item.categoryName }}
-      </li>
-      
-    </ul>
+        >  {{ item.categoryName }}</li>       
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,7 +46,17 @@ export default {
 
 <style>
 .Menu-component {
-  width: 20%;
-  background: cadetblue;
+  position: fixed;
+  right: 5%;
+  bottom: 20%;
+  z-index: 1;
+  opacity: 0.3;
+}
+.Menu-component:hover{
+  opacity: 1;
+}
+.dropdown-item:hover{
+ 
+  background: lightgreen;
 }
 </style>

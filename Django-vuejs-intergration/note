@@ -1,0 +1,107 @@
+
+
+step 1. create a django project name( djangovue)
+
+inside django project create a folder templates
+
+step 2. djangovue/setting
+
+	TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            str(BASE_DIR.joinpath('templates'))
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+at the end of file 
+
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'CACHE': not DEBUG,
+            'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
+            'STATS_FILE': str(BASE_DIR.joinpath('frontend','webpack-stats.json')),
+            'POLL_INTERVAL': 0.1,
+            'TIMEOUT': None,
+            'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
+            
+        }
+    }
+steps 3. djangovue/urls
+
+	from django.contrib import admin
+	from django.urls import path
+	from django.views.generic import TemplateView
+
+	urlpatterns = [
+    		path('admin/', admin.site.urls),
+    		path('',TemplateView.as_view(template_name="index.html"),name='index')
+	]
+
+steps 4. in folder templates create file index.html
+
+steps 5. in folder djangovue open(cmd/terminal) create a vue project
+	vue create frontend
+
+steps 6. cd frontend
+	npm install --save-dev webpack-bundle-tracker
+
+steps 7. in frontend folder create a vue.config.js
+	const BundleTracker = require('webpack-bundle-tracker');
+
+    module.exports = {
+        publicPath: "http://0.0.0.0:8080",
+        outputDir: "./dist/",
+
+        chainWebpack: config => {
+            config.optimization.splitChunks(false)
+
+            config.plugin('BundleTracker').use(BundleTracker, [
+                {
+                    filename: './webpack-stats.json'
+                }
+            ])
+
+            config.resolve.alias.set('__STATIC__', 'static')
+
+            config.devServer
+                .public('http://0.0.0.0:8080')
+                .host('0.0.0.0')
+                .port(8080)
+                .hotOnly(true)
+                .watchOptions({poll: 1000})
+                .https(false)
+                .headers({'Access-Control-Allow-Origin': ['\*']})
+        }
+    };
+
+steps 8. in folder djangovue open (cmd/termial)
+	pip install django-webpack-loader
+
+steps 9. at file index.html in folder templates 
+	{% load render_bundle from webpack_loader %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Heloo django</h1>
+        <div id="root"></div>
+        {% render_bundle 'app' 'js'%}
+    </body>
+    </html>
+
+steps 10.
