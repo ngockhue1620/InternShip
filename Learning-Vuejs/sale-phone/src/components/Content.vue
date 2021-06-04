@@ -1,4 +1,6 @@
-<template>
+<template >
+<Suspense>
+  <template #default>
   <div class="Content-component ">   
 
     <div class="card " 
@@ -20,10 +22,16 @@
     </div>
 
   </div>
+  </template>
+  <template #fallback>
+
+      <div  class="Content-component ">Đang tải dữ liệu</div>
+  </template>
+</Suspense>
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
 import { mapActions, mapGetters } from "vuex";
 export default {
@@ -35,7 +43,7 @@ export default {
   created() {
     this.getListProduct();
     this.delete_search();
-     this.testApi();
+    //  this.testApi();
     
      
   },
@@ -44,18 +52,18 @@ export default {
   },
   methods: {
     ...mapActions(["getListProduct","addProductTocart","delete_search"]),
-   async testApi(){
+  //  async testApi(){
 
-     await axios.get("http://127.0.0.1:90/api/category/").
-      then(response=>{
-        console.log(response)
+  //    await axios.get("http://127.0.0.1:90/api/category/").
+  //     then(response=>{
+  //       console.log(response)
 
         
         
-      }).catch(e=>{
-        console.log(e)
-      })
-    }
+  //     }).catch(e=>{
+  //       console.log(e)
+  //     })
+  //   }
 
     
   },

@@ -1,8 +1,9 @@
-from re import T
-from django.db.models.base import Model
-from rest_framework import serializers
-from .models import *
 
+
+from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+from .models import *
+from rest_framework.validators import UniqueTogetherValidator
 class ProductSerialize(serializers.ModelSerializer):
     class Meta:
         model=Products
@@ -15,7 +16,12 @@ class CategorySerialize(serializers.ModelSerializer):
     class Meta:
         model = Categories
         fields = ['id','categoryName','products']
-
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Categories.objects.all(),
+                fields=['categoryName']
+            )
+        ]
 
 class OrderDetailSerialize(serializers.ModelSerializer):
     class Meta:
@@ -24,11 +30,12 @@ class OrderDetailSerialize(serializers.ModelSerializer):
 
 
 class OrderSerialize(serializers.ModelSerializer):
-    ordersDetail = OrderDetailSerialize(many=True)
+    # ordersDetail = OrderDetailSerialize(many=True)
 
     class Meta:
         model=Orders        
-        fields=['id','recipientPhone','recipientName','note','isProcess','customer','ordersDetail']
+        fields=['id','recipientPhone','recipientName','note','isProcess','customer']
+        depth = 2
 
     def create(self, validated_data):
         ordersDetail = validated_data.pop('ordersDetail')
@@ -38,11 +45,36 @@ class OrderSerialize(serializers.ModelSerializer):
         
         return order
 
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
-class CustomerSerialize(serializers.ModelSerializer):
-    orders = OrderSerialize(many=True,read_only=True)
-
+class UserSerialize(serializers.ModelSerializer):
+        # orders = OrderSerialize(many=True)
+    password2 = serializers.CharField(style={'input_type':'password'},write_only=True)
     class Meta:
-        model=Customers
-        fields=['id','customerName','customerEmail','password','phone','address','orders']
+        model=User
+        fields=('id','password','email','username','last_name','password2')
+    
+    def create(self, validated_data):
+        password = validated_data['password']
+        password2 = validated_data['password2']
+        if(password!=password2):
+            raise serializers.ValidationError({'password':'password is not match'})
+        else:
+            del validated_data['password2']
+            user = User.objects.create_user(**validated_data)
+        
+            token = Token.objects.create(user=user)
+        # print({'user':user,'token':token})
+            return user
+
+class LogInUserSerialize(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        fields = ('username','password')
+    
+
+    
+
 
