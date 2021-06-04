@@ -47,6 +47,7 @@
             </div>
           </tbody>
         </table>
+        <button class='btn btn-primary'>Thanh toan</button>
       </div>
     </div>
   </div>

@@ -18,7 +18,7 @@ from .models import Article
 #        instance.dtae = validated_data.get('date',instance.date)
 #        instance.save()
 #        return instance
-class ArticleSerilize(serializers.ModelSerializer):
+class ArticleSerilize(serializers.Serializer):
     class  Meta:
         model = Article
         fields=['id','titie','author','email']

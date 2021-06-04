@@ -1,5 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.contrib.auth.models import User
 class Categories(models.Model):
     categoryName    = models.CharField(max_length=200)
     created_at      = models.DateTimeField(auto_now_add=True)
@@ -49,7 +50,7 @@ class Orders(models.Model):
     recipientName   = models.TextField(max_length=100)
     note            = models.TextField(max_length=200,blank=True)
     isProcess       = models.BooleanField()
-    customer        = models.ForeignKey(Customers,related_name='orders', on_delete=models.CASCADE)
+    customer        = models.ForeignKey(User,related_name='orders', on_delete=models.CASCADE)
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
 

@@ -1,9 +1,11 @@
 
 
+from re import S
 from django.shortcuts import redirect, render ,get_list_or_404
 
 from django.views.generic import View
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .forms import CategoryForm,ProductForm,CustomerForm
 from .models import Categories, Customers, Products
@@ -84,14 +86,21 @@ from rest_framework import status, viewsets
 from .serializes import *
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth.models import User
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 class CategoryViewSet(viewsets.ViewSet):
 
+    authentication_classes=[TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def list(self,request):
 
         categories = Categories.objects.select_related().all()
         serialize  = CategorySerialize(categories,many=True)
         return Response(serialize.data)
-
+    
     def create(self,request):
         serialize = CategorySerialize(data=request.data)
         if serialize.is_valid():
@@ -114,33 +123,71 @@ class ProductViewSet(viewsets.ViewSet):
             serialize.save()
             return Response(serialize.data,status=status.HTTP_201_CREATED)
         return Response(serialize.errors)
- 
+from django.db.models import Subquery
+
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 class CustomerViewSet(viewsets.ViewSet):
 
     def list(self,request):
-        customers = Customers.objects.select_related().all()
-        serialize  = CustomerSerialize(customers,many=True)
+        
+        users = User.objects.all()        
+        # UserParent.objects.filter(user_id__in=Subquery(users.values('id')))
+        serialize  = UserSerialize(users,many=True)
         return Response(serialize.data)
 
     def create(self,request):
-        serialize = CustomerSerialize(data=request.data)
+        serialize = UserSerialize(data=request.data)
+        print("chay vo day roi")
+        
         if serialize.is_valid():
-            serialize.save()
+            serialize.save()             
+            # token = Token.objects.get(user=serialize.data['id'])
+            # token = Token.objects.create(user=serialize.data)
+            # print(serialize.data['username'])
+            
+            
+            print(serialize.data)
             return Response(serialize.data,status=status.HTTP_201_CREATED)
+           
         return Response(serialize.errors)
+        
  
 
 class OrderViewSet(viewsets.ViewSet):
 
     def list(self,request):
-
         products = Orders.objects.all()
         serialize  = OrderSerialize(products,many=True)
         return Response(serialize.data)
 
     def create(self,request):
-        serialize = OrderSerialize(data = request.data )
+        serialize = OrderSerialize(data = request.data)
+        
         if serialize.is_valid():
             serialize.save()
             return Response(serialize.data,status=status.HTTP_201_CREATED)
         return Response(serialize.errors)
+
+from django.contrib.auth import authenticate, login
+
+class LoginUserViewSet(APIView):
+    def get(self, request, format=None):
+        users = User.objects.all()        
+        # UserParent.objects.filter(user_id__in=Subquery(users.values('id')))
+        serialize  = LogInUserSerialize(users,many=True)
+        return Response(serialize.data)
+    def post(self, request, format=None):
+        print(request.data)
+        serialize = LogInUserSerialize(data=request.data) 
+         
+        if serialize.is_valid():
+            username = serialize['username']
+            password = serialize['password']
+            print(username,password)
+            userlogin = authenticate(request, username=username, password=password)
+            if userlogin is not None:
+                login(request, userlogin)
+                token = Token.objects.get(user=username)
+                return Response(token,status=status.HTTP_200_OK)
+        return Response({'error':'password or userName is wrong'},status=status.HTTP_400_BAD_REQUEST)

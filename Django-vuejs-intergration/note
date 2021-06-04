@@ -51,6 +51,7 @@ steps 4. in folder templates create file index.html
 
 steps 5. in folder djangovue open(cmd/terminal) create a vue project
 	vue create frontend
+(template, frontend, djangovue) nằm cùng cấp
 
 steps 6. cd frontend
 	npm install --save-dev webpack-bundle-tracker
@@ -86,6 +87,17 @@ steps 7. in frontend folder create a vue.config.js
 
 steps 8. in folder djangovue open (cmd/termial)
 	pip install django-webpack-loader
+step 9. in setting file
+    INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'webpack_loader'
+]
+
 
 steps 9. at file index.html in folder templates 
 	{% load render_bundle from webpack_loader %}
@@ -105,3 +117,7 @@ steps 9. at file index.html in folder templates
     </html>
 
 steps 10.
+
+
+
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp

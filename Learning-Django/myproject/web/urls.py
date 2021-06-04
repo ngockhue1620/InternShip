@@ -24,5 +24,6 @@ urlpatterns = [
     path('customer/create',CreateCustomer.as_view(),name='customer_create_url'),
     path('customer/<str:customerEmail>',CustomerDetail.as_view(),name='customer_detail_url'),
 
-    path('api/',include(router.urls))
+    path('api/',include(router.urls)),
+    path('login',LoginUserViewSet.as_view())
 ]
